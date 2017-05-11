@@ -16,11 +16,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+// #define USE_I2C
 #define USE_SERIAL
 
-#define MASTER_LEFT
+// #define MASTER_LEFT
 // #define _MASTER_RIGHT
-// #define EE_HANDS
+#define EE_HANDS
 
 #ifdef SUBPROJECT_rev3
     #include "../../rev3/config.h"

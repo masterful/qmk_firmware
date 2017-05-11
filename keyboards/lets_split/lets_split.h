@@ -7,11 +7,15 @@
 #ifdef SUBPROJECT_rev2
     #include "rev2.h"
 #endif
+#ifdef SUBPROJECT_rev3
+    #include "rev3.h"
+#endif
 #ifdef SUBPROJECT_rev2fliphalf
 	#include "rev2fliphalf.h"
 #endif
 
 // Used to create a keymap using only KC_ prefixed keys
+#ifndef KC_KEYMAP
 #define KC_KEYMAP( \
     L00, L01, L02, L03, L04, L05, R00, R01, R02, R03, R04, R05, \
     L10, L11, L12, L13, L14, L15, R10, R11, R12, R13, R14, R15, \
@@ -24,6 +28,7 @@
         KC_##L20, KC_##L21, KC_##L22, KC_##L23, KC_##L24, KC_##L25, KC_##R20, KC_##R21, KC_##R22, KC_##R23, KC_##R24, KC_##R25, \
         KC_##L30, KC_##L31, KC_##L32, KC_##L33, KC_##L34, KC_##L35, KC_##R30, KC_##R31, KC_##R32, KC_##R33, KC_##R34, KC_##R35 \
     )
+#endif
 
 #include "quantum.h"
 
