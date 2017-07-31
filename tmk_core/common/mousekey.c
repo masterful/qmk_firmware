@@ -43,6 +43,7 @@ uint8_t mk_delay = MOUSEKEY_DELAY/10;
 /* milliseconds between repeated motion events (0-255) */
 uint8_t mk_interval = MOUSEKEY_INTERVAL;
 /* steady speed (in action_delta units) applied each event (0-255) */
+uint8_t mk_move_delta = MOUSEKEY_MOVE_DELTA;
 uint8_t mk_max_speed = MOUSEKEY_MAX_SPEED;
 /* number of events (count) accelerating to steady speed (0-255) */
 uint8_t mk_time_to_max = MOUSEKEY_TIME_TO_MAX;
@@ -60,17 +61,17 @@ static uint8_t move_unit(void)
 {
     uint16_t unit;
     if (mousekey_accel & (1<<0)) {
-        unit = (MOUSEKEY_MOVE_DELTA * mk_max_speed)/4;
+        unit = (mk_move_delta * mk_max_speed)/4;
     } else if (mousekey_accel & (1<<1)) {
-        unit = (MOUSEKEY_MOVE_DELTA * mk_max_speed)/2;
+        unit = (mk_move_delta * mk_max_speed)/2;
     } else if (mousekey_accel & (1<<2)) {
-        unit = (MOUSEKEY_MOVE_DELTA * mk_max_speed);
+        unit = (mk_move_delta * mk_max_speed);
     } else if (mousekey_repeat == 0) {
-        unit = MOUSEKEY_MOVE_DELTA;
+        unit = mk_move_delta;
     } else if (mousekey_repeat >= mk_time_to_max) {
-        unit = MOUSEKEY_MOVE_DELTA * mk_max_speed;
+        unit = mk_move_delta * mk_max_speed;
     } else {
-        unit = (MOUSEKEY_MOVE_DELTA * mk_max_speed * mousekey_repeat) / mk_time_to_max;
+        unit = (mk_move_delta * mk_max_speed * mousekey_repeat) / mk_time_to_max;
     }
     return (unit > MOUSEKEY_MOVE_MAX ? MOUSEKEY_MOVE_MAX : (unit == 0 ? 1 : unit));
 }
@@ -143,6 +144,9 @@ void mousekey_on(uint8_t code)
     else if (code == KC_MS_ACCEL0)   mousekey_accel |= (1<<0);
     else if (code == KC_MS_ACCEL1)   mousekey_accel |= (1<<1);
     else if (code == KC_MS_ACCEL2)   mousekey_accel |= (1<<2);
+    else if (code == KC_MS_FASTER)   mousekey_increase_speed();
+    else if (code == KC_MS_SLOWER)   mousekey_decrease_speed();
+    else if (code == KC_MS_RESET)    mk_move_delta = MOUSEKEY_MOVE_DELTA;
 }
 
 void mousekey_off(uint8_t code)
@@ -182,15 +186,26 @@ void mousekey_clear(void)
     mousekey_accel = 0;
 }
 
+void mousekey_increase_speed(void)
+{
+    if (mk_move_delta < MOUSEKEY_MAX_SPEED) mk_move_delta++;
+}
+
+void mousekey_decrease_speed(void)
+{
+    if (mk_move_delta > 0) mk_move_delta--;
+}
+
 static void mousekey_debug(void)
 {
     if (!debug_mouse) return;
-    print("mousekey [btn|x y v h](rep/acl): [");
+    print("mousekey [btn|x y v h](rep/acl/spd): [");
     phex(mouse_report.buttons); print("|");
     print_decs(mouse_report.x); print(" ");
     print_decs(mouse_report.y); print(" ");
     print_decs(mouse_report.v); print(" ");
     print_decs(mouse_report.h); print("](");
     print_dec(mousekey_repeat); print("/");
-    print_dec(mousekey_accel); print(")\n");
+    print_dec(mousekey_accel); print("/");
+    print_dec(mk_move_delta); print(")\n");
 }

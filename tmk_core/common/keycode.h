@@ -38,6 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define IS_MOUSEKEY_BUTTON(code) (KC_MS_BTN1   <= (code) && (code) <= KC_MS_BTN5)
 #define IS_MOUSEKEY_WHEEL(code)  (KC_MS_WH_UP  <= (code) && (code) <= KC_MS_WH_RIGHT)
 #define IS_MOUSEKEY_ACCEL(code)  (KC_MS_ACCEL0 <= (code) && (code) <= KC_MS_ACCEL2)
+#define IS_MOUSEKEY_SPEED(code)  (KC_MS_FASTER <= (code) && (code) <= KC_MS_RESET)
 
 #define MOD_BIT(code)   (1<<MOD_INDEX(code))
 #define MOD_INDEX(code) ((code) & 0x07)
@@ -130,6 +131,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KC_ACL0 KC_MS_ACCEL0
 #define KC_ACL1 KC_MS_ACCEL1
 #define KC_ACL2 KC_MS_ACCEL2
+#define KC_SPUP KC_MS_FASTER
+#define KC_SPDN KC_MS_SLOWER
+#define KC_SPRT KC_MS_RESET
 /* Sytem Control */
 #define KC_PWR  KC_SYSTEM_POWER
 #define KC_SLEP KC_SYSTEM_SLEEP
@@ -466,7 +470,7 @@ enum internal_special_keycodes {
     /**************************************/
 
     /* Mousekey */
-    KC_MS_UP            = 0xF0,
+    KC_MS_UP            = 0xED,
     KC_MS_DOWN,
     KC_MS_LEFT,
     KC_MS_RIGHT,
@@ -483,7 +487,11 @@ enum internal_special_keycodes {
     /* Mousekey accel */
     KC_MS_ACCEL0,
     KC_MS_ACCEL1,
-    KC_MS_ACCEL2        /* 0xFF */
+    KC_MS_ACCEL2,
+    /* Mousekey speed */
+    KC_MS_FASTER,
+    KC_MS_SLOWER,
+    KC_MS_RESET         /* 0xFF */
 };
 
 #endif /* KEYCODE_H */

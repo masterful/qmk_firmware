@@ -22,6 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define MASTER_LEFT
 // #define _MASTER_RIGHT
 #define EE_HANDS
+#define MOUSEKEY_TIME_TO_MAX 1
+#define MOUSEKEY_DELAY 100
+#define MOUSEKEY_INTERVAL 80
+#define MOUSEKEY_MAX_SPEED 8
 
 #ifdef SUBPROJECT_rev3
     #include "../../rev3/config.h"
